@@ -29,7 +29,7 @@ def generate_codes(num_chars=4, max_images=10000, img_ext=".png"):
     sys.stdout.write("\nDone.")
     sys.stdout.flush()
 
-def generate_dataset_tfrecords(data_dir="../data1", test_size=0.1, val_size=0.1):
+def generate_dataset_tfrecords(data_dir="../data/4chars", test_size=0.1, val_size=0.1):
     if not os.path.exists(data_dir):
         print("{} no such file or director".format(data_dir))
         return
