@@ -13,7 +13,7 @@ class DataSet(object):
     def __init__(self, tfrecord_file_path):
         self._file_path = tfrecord_file_path
 
-    def next_batch(self, batch_size, shuffle=True):
+    def next_batch(self, batch_size, shuffle=False):
         reader = TfRecordReaderHelper()
         img_obj = reader.load_image_object(self._file_path)
         if img_obj is None:
@@ -22,9 +22,8 @@ class DataSet(object):
 
         height = tf.cast(img_obj.height, tf.int32)
         width = tf.cast(img_obj.width, tf.int32)
-        image = tf.reshape(image_raw, [height, width, -1])
-
-        label = tf.reshape(tf.cast(img_obj.label, tf.int32), [])
+        image = tf.reshape(image_raw, [60, 160, 3])
+        label = tf.reshape(img_obj.label, [1])
         num_threads = 1
         if shuffle:
             min_after_dequeue = 10000
