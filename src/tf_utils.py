@@ -73,8 +73,7 @@ class ImageObject(object):
         self.image_raw = tf.Variable([], dtype=tf.string)
         self.height = tf.Variable([], dtype=tf.int64)
         self.width = tf.Variable([], dtype=tf.int64)
-        self.name = tf.Variable([], dtype=tf.string)
-        self.label = tf.Variable([], dtype=tf.int32)
+        self.digits = tf.Variable([], dtype=tf.string)
 
 
 class TfRecordReaderHelper(object):
@@ -90,12 +89,12 @@ class TfRecordReaderHelper(object):
         features = tf.parse_single_example(serialized_example, features={
             "height": tf.FixedLenFeature([], tf.int64),
             "width": tf.FixedLenFeature([], tf.int64),
-            "label": tf.FixedLenFeature([], tf.string),
+            "digits": tf.FixedLenFeature([], tf.string),
             "image_raw": tf.FixedLenFeature([], tf.string),
         })
         image_obj = ImageObject()
         image_obj.height = features["height"]
         image_obj.width = features["width"]
+        image_obj.digits = features["digits"]
         image_obj.image_raw = features["image_raw"]
-        image_obj.label = features["label"]
         return image_obj

@@ -149,13 +149,18 @@ class Model(object):
 
     @staticmethod
     def loss(digits_logits, digits_labels):
-        digit1_loss = tf.reduce_mean(
-            tf.nn.softmax_cross_entropy_with_logits_v2(logits=digits_logits[:, 0, :], labels=digits_labels[:, 0, :]))
-        digit2_loss = tf.reduce_mean(
-            tf.nn.softmax_cross_entropy_with_logits_v2(logits=digits_logits[:, 1, :], labels=digits_labels[:, 1, :]))
-        digit3_loss = tf.reduce_mean(
-            tf.nn.softmax_cross_entropy_with_logits_v2(logits=digits_logits[:, 2, :], labels=digits_labels[:, 2, :]))
-        digit4_loss = tf.reduce_mean(
-            tf.nn.softmax_cross_entropy_with_logits_v2(logits=digits_logits[:, 3, :], labels=digits_labels[:, 3, :]))
-        total_loss = digit1_loss + digit2_loss + digit3_loss + digit4_loss + tf.add_n(tf.get_collection("loss"))
+        with tf.name_scope("loss"):
+            with tf.name_scope("digit1_loss"):
+                digit1_loss = tf.reduce_mean(
+                    tf.nn.softmax_cross_entropy_with_logits_v2(logits=digits_logits[:, 0, :], labels=tf.one_hot(digits_labels[:, 0], 10)))
+            with tf.name_scope("digit2_loss"):
+                digit2_loss = tf.reduce_mean(
+                    tf.nn.softmax_cross_entropy_with_logits_v2(logits=digits_logits[:, 1, :], labels=tf.one_hot(digits_labels[:, 1], 10)))
+            with tf.name_scope("digit3_loss"):
+                digit3_loss = tf.reduce_mean(
+                    tf.nn.softmax_cross_entropy_with_logits_v2(logits=digits_logits[:, 2, :], labels=tf.one_hot(digits_labels[:, 2], 10)))
+            with tf.name_scope("digit4_loss"):
+                digit4_loss = tf.reduce_mean(
+                    tf.nn.softmax_cross_entropy_with_logits_v2(logits=digits_logits[:, 3, :], labels=tf.one_hot(digits_labels[:, 3], 10)))
+            total_loss = digit1_loss + digit2_loss + digit3_loss + digit4_loss + tf.add_n(tf.get_collection("loss"))
         return total_loss

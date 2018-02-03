@@ -44,13 +44,16 @@ def _convert_to_tfrecord(data_dir, file_list, out_dir, tfrecord_file_name):
         image_np = np.array(Image.open(file_path))
         rows = image_np.shape[0]
         cols = image_np.shape[1]
-        label, ext = os.path.splitext(os.path.basename(file_name))
+        name, ext = os.path.splitext(os.path.basename(file_name))
+        digits = [int(d) for d in list(name)]
+        digits = np.asarray(digits)
         sys.stdout.write("\rProcessing {0}/{1}".format(i+1, len(file_list)))
         sys.stdout.flush()
         tfrecord_helper.write_tf_example(height=rows,
                                          width=cols,
-                                         label=label.encode(),
+                                         digits=digits.tobytes(),
                                          image_raw=image_np.tobytes())
+
 
     tfrecord_helper.close()
     sys.stdout.write("\nFinised.\n")
