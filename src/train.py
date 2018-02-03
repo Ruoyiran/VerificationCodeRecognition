@@ -53,10 +53,10 @@ def train(tfrecord_file_path,
 
 if __name__ == '__main__':
     data_path = "../data/4chars_train.tfrecord"
-    batch_size = 20
-    learning_rate = 1e-3
+    batch_size = 1
+    learning_rate = 1e-4
     drop_rate = 1.0# 0.7
     regularization_scale = 1e-4
-    max_steps = 10000
+    max_steps = 100000
 
     train(data_path, batch_size, learning_rate, drop_rate, regularization_scale, max_steps=max_steps)

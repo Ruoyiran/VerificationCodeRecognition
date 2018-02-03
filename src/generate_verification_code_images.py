@@ -35,13 +35,16 @@ def generate_codes(num_chars=4, max_images=10000, img_ext=".png"):
     sys.stdout.flush()
 
 
-def _convert_to_tfrecord(data_dir, file_list, out_dir, tfrecord_file_name):
+def _convert_to_tfrecord(data_dir, file_list, out_dir, tfrecord_file_name, gray_scale=True):
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     tfrecord_helper = TFRecordWriterHelper(os.path.join(out_dir, tfrecord_file_name))
     for i, file_name in enumerate(file_list):
         file_path = os.path.join(data_dir, file_name)
-        image_np = np.array(Image.open(file_path))
+        img = Image.open(file_path)
+        if gray_scale:
+            img = img.convert("L")
+        image_np = np.array(img)
         rows = image_np.shape[0]
         cols = image_np.shape[1]
         name, ext = os.path.splitext(os.path.basename(file_name))

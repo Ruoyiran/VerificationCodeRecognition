@@ -23,7 +23,7 @@ class DataSet(object):
 
         height = tf.cast(img_obj.height, tf.int32)
         width = tf.cast(img_obj.width, tf.int32)
-        image = tf.reshape(image_raw, [60, 160, 3])
+        image = tf.reshape(image_raw, [60, 160, 1])
         digits = tf.cast(digits_raw, tf.int32)
         digits = tf.reshape(digits, [4])
 
