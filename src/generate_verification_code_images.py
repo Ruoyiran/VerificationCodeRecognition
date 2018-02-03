@@ -51,7 +51,6 @@ def _convert_to_tfrecord(data_dir, file_list, out_dir, tfrecord_file_name):
                                          width=cols,
                                          label=label.encode(),
                                          image_raw=image_np.tobytes())
-        break
 
     tfrecord_helper.close()
     sys.stdout.write("\nFinised.\n")

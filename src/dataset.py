@@ -2,10 +2,10 @@
 @version: 1.0
 @author: royran
 @contact: iranpeng@gmail.com
-@file: load_data.py
+@file: dataset.py
 @time: 2018/2/2 20:25
 '''
-import numpy as np
+
 import tensorflow as tf
 from tf_utils import TfRecordReaderHelper
 
@@ -24,6 +24,7 @@ class DataSet(object):
         width = tf.cast(img_obj.width, tf.int32)
         image = tf.reshape(image_raw, [60, 160, 3])
         label = tf.reshape(img_obj.label, [1])
+        # labels = tf.string_split(label, delimiter='')
         num_threads = 1
         if shuffle:
             min_after_dequeue = 10000
@@ -40,18 +41,3 @@ class DataSet(object):
                                                       num_threads=num_threads,
                                                       capacity=capacity)
         return image_batch, label_batch
-
-def load_tfrecord_data(tfrecord_file_path):
-    dataset = DataSet(tfrecord_file_path)
-    with tf.Session() as sess:
-        image_batch, label_batch = dataset.next_batch(64)
-        coord = tf.train.Coordinator()
-        threads = tf.train.start_queue_runners(sess=sess, coord=coord)
-        images, labels = sess.run((image_batch,label_batch))
-        print(images.shape, labels.shape)
-        coord.request_stop()
-        coord.join(threads)
-
-
-data_path = "../data/4chars_train.tfrecord"
-load_tfrecord_data(data_path)
