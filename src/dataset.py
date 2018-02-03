@@ -24,25 +24,26 @@ class DataSet(object):
         height = tf.cast(img_obj.height, tf.int32)
         width = tf.cast(img_obj.width, tf.int32)
         image = tf.reshape(image_raw, [60, 160, 3])
-        digits = tf.reshape(digits_raw, [4])
+        digits = tf.cast(digits_raw, tf.int32)
+        digits = tf.reshape(digits, [4])
 
         image = tf.cast(image, tf.float32)
         image = tf.divide(image, 255.0)
 
         num_threads = 1
-        with tf.name_scope("Input"):
-            if shuffle:
-                min_after_dequeue = 10000
-                capacity = min_after_dequeue + 3 * batch_size
-                image_batch, label_batch = tf.train.shuffle_batch([image, digits],
-                                                                  batch_size=batch_size,
-                                                                  capacity=capacity,
-                                                                  min_after_dequeue=min_after_dequeue,
-                                                                  num_threads=num_threads)
-            else:
-                capacity=10000 + 3 * batch_size
-                image_batch, label_batch = tf.train.batch([image, digits],
-                                                          batch_size=batch_size,
-                                                          num_threads=num_threads,
-                                                          capacity=capacity)
+
+        if shuffle:
+            min_after_dequeue = 10000
+            capacity = min_after_dequeue + 3 * batch_size
+            image_batch, label_batch = tf.train.shuffle_batch([image, digits],
+                                                              batch_size=batch_size,
+                                                              capacity=capacity,
+                                                              min_after_dequeue=min_after_dequeue,
+                                                              num_threads=num_threads)
+        else:
+            capacity=10000 + 3 * batch_size
+            image_batch, label_batch = tf.train.batch([image, digits],
+                                                      batch_size=batch_size,
+                                                      num_threads=num_threads,
+                                                      capacity=capacity)
         return image_batch, label_batch

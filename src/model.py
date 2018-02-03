@@ -143,6 +143,16 @@ class Model(object):
             if regularization:
                 kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'digit4/dense/kernel')[0]
                 tf.add_to_collection('loss', regularization(kernel))
+        print(hidden1.get_shape())
+        print(hidden2.get_shape())
+        print(hidden3.get_shape())
+        print(hidden4.get_shape())
+        print(hidden5.get_shape())
+        print(hidden6.get_shape())
+        print(hidden7.get_shape())
+        print(hidden8.get_shape())
+        print(hidden9.get_shape())
+        print(hidden10.get_shape())
 
         digits_logits = tf.stack([digit1, digit2, digit3, digit4], axis=1)
         return digits_logits
