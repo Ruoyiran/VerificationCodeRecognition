@@ -58,18 +58,18 @@ class Model(object):
 
     @staticmethod
     def inference(x, drop_rate, regularization=None, show_net_summary=True):
-        hidden1 = Model._conv_layer_block("hidden_layer1", x, 48, 5, drop_rate=drop_rate, regularization=regularization)
-        hidden2 = Model._conv_layer_block("hidden_layer2", hidden1, 64, 5, drop_rate=drop_rate,
+        hidden1 = Model._conv_layer_block("Conv1", x, 48, 5, drop_rate=drop_rate, regularization=regularization)
+        hidden2 = Model._conv_layer_block("Conv2", hidden1, 64, 5, drop_rate=drop_rate,
                                           regularization=regularization)
-        hidden3 = Model._conv_layer_block("hidden_layer3", hidden2, 128, 5, drop_rate=drop_rate,
+        hidden3 = Model._conv_layer_block("Conv3", hidden2, 128, 5, drop_rate=drop_rate,
                                           regularization=regularization)
-        hidden4 = Model._conv_layer_block("hidden_layer4", hidden3, 160, 5, drop_rate=drop_rate,
+        hidden4 = Model._conv_layer_block("Conv4", hidden3, 160, 5, drop_rate=drop_rate,
                                           regularization=regularization)
-        hidden5 = Model._conv_layer_block("hidden_layer5", hidden4, 192, 5, drop_rate=drop_rate,
+        hidden5 = Model._conv_layer_block("Conv5", hidden4, 192, 5, drop_rate=drop_rate,
                                           regularization=regularization)
-        flatten = tf.layers.flatten(hidden5, name="flatten")
-        hidden6 = Model._full_connected_block("hidden_layer6", flatten, 1920, regularization=regularization)
-        hidden7 = Model._full_connected_block("hidden_layer7", hidden6, 1920, regularization=regularization)
+        flatten = tf.layers.flatten(hidden5, name="Flatten")
+        hidden6 = Model._full_connected_block("FC1", flatten, 1920, regularization=regularization)
+        hidden7 = Model._full_connected_block("FC2", hidden6, 1920, regularization=regularization)
         fc_output = hidden7
         if show_net_summary:
             print(hidden1.get_shape())
@@ -80,28 +80,28 @@ class Model(object):
             print(hidden6.get_shape())
             print(hidden7.get_shape())
 
-        with tf.variable_scope('digit1'):
+        with tf.variable_scope('Digit1'):
             dense = tf.layers.dense(fc_output, 10)
             digit1 = dense
             if regularization:
                 kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'digit1/dense/kernel')[0]
                 tf.add_to_collection('loss', regularization(kernel))
 
-        with tf.variable_scope('digit2'):
+        with tf.variable_scope('Digit2'):
             dense = tf.layers.dense(fc_output, 10)
             digit2 = dense
             if regularization:
                 kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'digit2/dense/kernel')[0]
                 tf.add_to_collection('loss', regularization(kernel))
 
-        with tf.variable_scope('digit3'):
+        with tf.variable_scope('Digit3'):
             dense = tf.layers.dense(fc_output, 10)
             digit3 = dense
             if regularization:
                 kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'digit3/dense/kernel')[0]
                 tf.add_to_collection('loss', regularization(kernel))
 
-        with tf.variable_scope('digit4'):
+        with tf.variable_scope('Digit4'):
             dense = tf.layers.dense(fc_output, 10)
             digit4 = dense
             if regularization:
