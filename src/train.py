@@ -68,7 +68,7 @@ def train(train_data_path,
         ckpt_state = tf.train.get_checkpoint_state(model_dir)
         if ckpt_state and ckpt_state.model_checkpoint_path:
             print("Restore model from {}".format(ckpt_state.model_checkpoint_path))
-            # saver.restore(sess, ckpt_state.model_checkpoint_path)
+            saver.restore(sess, ckpt_state.model_checkpoint_path)
         for step in range(max_steps+1):
             images, digits = sess.run([train_image_batch, train_digits_batch])
             _, loss_val, summary = sess.run([train_op, loss, merged_summary], feed_dict={
@@ -103,10 +103,6 @@ def train(train_data_path,
                 print("step: {}, loss: {}, train acc: {}, val acc: {}".format(step, loss_val, train_acc, val_acc))
 
             if step % 1000 == 0:
-                saver.save(sess=sess,
-                           save_path=os.path.join(model_dir, "model.ckpt"),
-                           global_step=step)
-
                 test_images, test_digits = sess.run([test_image_batch, test_digits_batch])
                 test_acc = sess.run(accuracy, feed_dict={
                     x: test_images,
@@ -117,7 +113,14 @@ def train(train_data_path,
                     drop_rate_tensor: 1.0
                 })
                 print("=====> Test accuracy: {}".format(test_acc))
+                break
 
+                # saver.save(sess=sess,
+                #            save_path=os.path.join(model_dir, "model.ckpt"),
+                #            global_step=step)
+
+        # saver.save(sess=sess,
+        #            save_path=os.path.join(model_dir, "latest_model.ckpt"))
         writer.close()
         coord.request_stop()
         coord.join(threads)
