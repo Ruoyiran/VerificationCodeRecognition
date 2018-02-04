@@ -113,14 +113,12 @@ def train(train_data_path,
                     drop_rate_tensor: 1.0
                 })
                 print("=====> Test accuracy: {}".format(test_acc))
-                break
+                saver.save(sess=sess,
+                           save_path=os.path.join(model_dir, "model.ckpt"),
+                           global_step=step)
 
-                # saver.save(sess=sess,
-                #            save_path=os.path.join(model_dir, "model.ckpt"),
-                #            global_step=step)
-
-        # saver.save(sess=sess,
-        #            save_path=os.path.join(model_dir, "latest_model.ckpt"))
+        saver.save(sess=sess,
+                   save_path=os.path.join(model_dir, "latest_model.ckpt"))
         writer.close()
         coord.request_stop()
         coord.join(threads)
