@@ -14,7 +14,7 @@ def eval(data_path, batch_size, model_dir):
     tf.reset_default_graph()
     data = DataSet(data_path)
     image_batch, digits_batch = data.next_batch(batch_size, False)
-    with tf.name_scope("input"):
+    with tf.name_scope("Input"):
         x = tf.placeholder(tf.float32, shape=[None, 60, 160, 1], name='x')
         digit1 = tf.placeholder(tf.int32, shape=[None, 1], name='digit1')
         digit2 = tf.placeholder(tf.int32, shape=[None, 1], name='digit2')
@@ -22,11 +22,11 @@ def eval(data_path, batch_size, model_dir):
         digit4 = tf.placeholder(tf.int32, shape=[None, 1], name='digit4')
         digits_group = [digit1, digit2, digit3, digit4]
     digit_logits = Model.inference(x, 1.0, None)
-    with tf.name_scope("softmax"):
+    with tf.name_scope("Softmax"):
         digits_probs = [tf.nn.softmax(logits) for logits in digit_logits]
         pred_digits_tensor = [tf.cast(tf.argmax(prob, axis=1), tf.int32) for prob in digits_probs]
 
-    with tf.name_scope("accuracy"):
+    with tf.name_scope("Accuracy"):
         tf_equal = tf.equal(tf.stack(pred_digits_tensor, axis=1), tf.squeeze(tf.stack(digits_group, axis=1)))
         tf_equal = tf.equal(tf.reduce_sum(tf.cast(tf_equal, tf.float32), axis=1), 4)
         accuracy = tf.reduce_mean(tf.cast(tf_equal, tf.float32))

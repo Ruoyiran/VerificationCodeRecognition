@@ -24,7 +24,7 @@ def train(train_data_path,
     train_data = DataSet(train_data_path)
     test_data = DataSet(test_data_path)
     val_data = DataSet(val_data_path)
-    with tf.name_scope("input"):
+    with tf.name_scope("Input"):
         x = tf.placeholder(tf.float32, shape=[None, 60, 160, 1], name='x')
         digit1 = tf.placeholder(tf.int32, shape=[None, 1], name='digit1')
         digit2 = tf.placeholder(tf.int32, shape=[None, 1], name='digit2')
@@ -37,11 +37,11 @@ def train(train_data_path,
                          tf.one_hot(digit4, 10))
     drop_rate_tensor = tf.placeholder(tf.float32)
     digit_logits = Model.inference(x, drop_rate_tensor, tf.contrib.layers.l2_regularizer(regularization_scale))
-    with tf.name_scope("softmax"):
+    with tf.name_scope("Softmax"):
         digits_probs = [tf.nn.softmax(logits) for logits in digit_logits]
         pred_digits_tensor = [tf.cast(tf.argmax(prob, axis=1), tf.int32) for prob in digits_probs]
 
-    with tf.name_scope("accuracy"):
+    with tf.name_scope("Accuracy"):
         tf_equal = tf.equal(tf.stack(pred_digits_tensor, axis=1), tf.squeeze(tf.stack(digits_group, axis=1)))
         tf_equal = tf.equal(tf.reduce_sum(tf.cast(tf_equal, tf.float32), axis=1), 4)
         accuracy = tf.reduce_mean(tf.cast(tf_equal, tf.float32))
@@ -68,7 +68,7 @@ def train(train_data_path,
         ckpt_state = tf.train.get_checkpoint_state(model_dir)
         if ckpt_state and ckpt_state.model_checkpoint_path:
             print("Restore model from {}".format(ckpt_state.model_checkpoint_path))
-            saver.restore(sess, ckpt_state.model_checkpoint_path)
+            # saver.restore(sess, ckpt_state.model_checkpoint_path)
         for step in range(max_steps+1):
             images, digits = sess.run([train_image_batch, train_digits_batch])
             _, loss_val, summary = sess.run([train_op, loss, merged_summary], feed_dict={

@@ -84,28 +84,28 @@ class Model(object):
             dense = tf.layers.dense(fc_output, 10)
             digit1 = dense
             if regularization:
-                kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'digit1/dense/kernel')[0]
+                kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'Digit1/dense/kernel')[0]
                 tf.add_to_collection('loss', regularization(kernel))
 
         with tf.variable_scope('Digit2'):
             dense = tf.layers.dense(fc_output, 10)
             digit2 = dense
             if regularization:
-                kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'digit2/dense/kernel')[0]
+                kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'Digit2/dense/kernel')[0]
                 tf.add_to_collection('loss', regularization(kernel))
 
         with tf.variable_scope('Digit3'):
             dense = tf.layers.dense(fc_output, 10)
             digit3 = dense
             if regularization:
-                kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'digit3/dense/kernel')[0]
+                kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'Digit3/dense/kernel')[0]
                 tf.add_to_collection('loss', regularization(kernel))
 
         with tf.variable_scope('Digit4'):
             dense = tf.layers.dense(fc_output, 10)
             digit4 = dense
             if regularization:
-                kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'digit4/dense/kernel')[0]
+                kernel = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'Digit4/dense/kernel')[0]
                 tf.add_to_collection('loss', regularization(kernel))
         digits_logits = (digit1, digit2, digit3, digit4)
         return digits_logits

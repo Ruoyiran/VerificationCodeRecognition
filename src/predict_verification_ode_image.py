@@ -26,14 +26,14 @@ def predict(image_path, model_path):
     image_np = np.expand_dims(image_np, axis=2)
 
     tf.reset_default_graph()
-    with tf.name_scope("input"):
+    with tf.name_scope("Input"):
         x = tf.placeholder(tf.float32, shape=[None, 60, 160, 1], name='x')
     digit_logits = Model.inference(x, 1.0, None, show_net_summary=False)
-    with tf.name_scope("softmax"):
+    with tf.name_scope("Softmax"):
         digits_probs = [tf.nn.softmax(logits) for logits in digit_logits]
         pred_digits_tensor = [tf.cast(tf.argmax(prob, axis=1), tf.int32) for prob in digits_probs]
 
-    with tf.name_scope("predict"):
+    with tf.name_scope("Predict"):
         predict_tensor = tf.stack(pred_digits_tensor, axis=1)
 
     saver = tf.train.Saver()
