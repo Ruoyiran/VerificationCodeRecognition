@@ -2,7 +2,7 @@
 @version: 1.0
 @author: Roy
 @contact: iranpeng@gmail.com
-@file: predict_verification_ode_image.py
+@file: predict_verification_code_image.py
 @time: 2018/2/4 14:09
 """
 import os
