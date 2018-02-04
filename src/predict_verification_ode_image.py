@@ -8,7 +8,7 @@
 import os
 import tensorflow as tf
 import numpy as np
-from model_v2 import Model
+from model import Model
 from captcha.image import ImageCaptcha
 from PIL import Image
 

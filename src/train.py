@@ -9,7 +9,7 @@
 import os
 import tensorflow as tf
 from dataset import DataSet
-from model_v2 import Model
+from model import Model
 
 def train(train_data_path,
           test_data_path,

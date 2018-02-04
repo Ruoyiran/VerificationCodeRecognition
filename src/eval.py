@@ -7,7 +7,7 @@
 """
 import tensorflow as tf
 from dataset import DataSet
-from model_v2 import Model
+from model import Model
 
 
 def eval(data_path, batch_size, model_dir):
