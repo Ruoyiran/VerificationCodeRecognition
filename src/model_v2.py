@@ -57,7 +57,7 @@ class Model(object):
         return dense
 
     @staticmethod
-    def inference(x, drop_rate, regularization=None):
+    def inference(x, drop_rate, regularization=None, show_net_summary=True):
         hidden1 = Model._conv_layer_block("hidden_layer1", x, 48, 5, drop_rate=drop_rate, regularization=regularization)
         hidden2 = Model._conv_layer_block("hidden_layer2", hidden1, 64, 5, drop_rate=drop_rate,
                                           regularization=regularization)
@@ -71,14 +71,14 @@ class Model(object):
         hidden6 = Model._full_connected_block("hidden_layer6", flatten, 1920, regularization=regularization)
         hidden7 = Model._full_connected_block("hidden_layer7", hidden6, 1920, regularization=regularization)
         fc_output = hidden7
-
-        print(hidden1.get_shape())
-        print(hidden2.get_shape())
-        print(hidden3.get_shape())
-        print(hidden4.get_shape())
-        print(hidden5.get_shape())
-        print(hidden6.get_shape())
-        print(hidden7.get_shape())
+        if show_net_summary:
+            print(hidden1.get_shape())
+            print(hidden2.get_shape())
+            print(hidden3.get_shape())
+            print(hidden4.get_shape())
+            print(hidden5.get_shape())
+            print(hidden6.get_shape())
+            print(hidden7.get_shape())
 
         with tf.variable_scope('digit1'):
             dense = tf.layers.dense(fc_output, 10)
