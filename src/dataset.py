@@ -29,8 +29,10 @@ class DataSet(object):
 
         image = tf.cast(image, tf.float32)
         image = tf.divide(image, 255.0)
+        image = tf.subtract(image, 0.5)
+        image = tf.multiply(image, 2.0)
 
-        num_threads = 1
+        num_threads = 4
 
         if shuffle:
             min_after_dequeue = 10000

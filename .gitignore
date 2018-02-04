@@ -102,3 +102,5 @@ ENV/
 data/
 .idea/
 *.ROYRAN-PC2
+model
+log

@@ -31,7 +31,7 @@ def generate_codes(num_chars=4, max_images=10000, img_ext=".png"):
         image_path = os.path.join(out_dir, number + img_ext)
         generate_image(number, image_path)
 
-    sys.stdout.write("\nDone.")
+    sys.stdout.write("\nDone.\n")
     sys.stdout.flush()
 
 
@@ -56,7 +56,6 @@ def _convert_to_tfrecord(data_dir, file_list, out_dir, tfrecord_file_name, gray_
                                          width=cols,
                                          digits=digits.tobytes(),
                                          image_raw=image_np.tobytes())
-
 
     tfrecord_helper.close()
     sys.stdout.write("\nFinised.\n")
@@ -95,5 +94,5 @@ def generate_dataset_tfrecords(data_dir="../data/4chars", out_dir="../data", tes
     _convert_to_tfrecord(data_dir, val_files, out_dir, "4chars_val.tfrecord")
 
 if __name__ == '__main__':
-    # generate_codes()
+    generate_codes()
     generate_dataset_tfrecords()
